@@ -1,0 +1,22 @@
+{
+  "name": "serverless-spa-route53",
+  "version": "1.0.0",
+  "description": "My classy Nuxt.js project",
+  "author": "Smit Desai",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt-ts",
+    "build": "nuxt-ts build",
+    "generate": "nuxt-ts generate",
+    "start": "nuxt-ts start"
+  },
+  "dependencies": {
+    "@nuxt/typescript-runtime": "^0.4.0",
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {
+    "@nuxt/typescript-build": "^0.6.0",
+    "serverless-s3-remover": "^0.6.0",
+    "serverless-sync-s3buckets": "^1.0.1"
+  }
+}

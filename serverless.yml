@@ -1,0 +1,74 @@
+service: serverless-spa-route53
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  memorySize: 128
+  timeout: 1
+
+functions:
+
+resources:
+  Resources:
+    StaticSite:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: PublicRead
+        BucketName: ${self:custom.hostedZoneName}
+        WebsiteConfiguration:
+          ErrorDocument: index.html
+          IndexDocument: index.html
+
+    StaticSiteS3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: StaticSite
+        PolicyDocument:
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Allow
+              Principal: "*"
+              Action:
+              - s3:GetObject
+              Resource:
+                Fn::Join: [
+                  "", [
+                    "arn:aws:s3:::",
+                    {
+                      "Ref": "StaticSite"
+                    },
+                    "/*"
+                  ]
+                ]
+
+  Outputs:
+    StaticSiteS3BucketName:
+      Value:
+        'Ref': StaticSite
+    StaticSiteS3BucketDomainName:
+      Value:
+        Fn::GetAtt:
+          - StaticSite
+          - DomainName
+    StaticSiteS3BucketWebsiteURL:
+      Value:
+        Fn::GetAtt:
+          - StaticSite
+          - WebsiteURL
+
+plugins:
+  - serverless-sync-s3buckets
+  - serverless-s3-remover
+
+custom:
+  syncS3Buckets:
+    - bucketRef: StaticSite
+      localDir: dist
+  hostedZoneName: www.mumbaimob.com
+  remover:
+    buckets:
+      - ${self:custom.hostedZoneName}
+      
