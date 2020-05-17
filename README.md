@@ -1,22 +1,17 @@
 # serverless-spa-route53
-
-> My classy Nuxt.js project
-
-## Build Setup
-
+## Deploy Stack
 ```bash
-# install dependencies
-$ npm install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
+npm install
+npm run build
+serverless deploy -v
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+## Removal Stack
+```bash
+serverless remove -v
+```
+## Following AWS Service will get affected
+```bash
+cloudformation
+s3
+route53
+```
