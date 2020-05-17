@@ -43,6 +43,16 @@ resources:
                     "/*"
                   ]
                 ]
+    DnsRecord:
+      Type: "AWS::Route53::RecordSet"
+      Properties:
+        AliasTarget:
+          DNSName: ${self:custom.aliasDNSName}
+          HostedZoneId: ${self:custom.hostedZoneId}
+        HostedZoneName: ${self:custom.hostedZoneName}.
+        Name:
+          Ref: StaticSite
+        Type: 'A'
 
   Outputs:
     StaticSiteS3BucketName:
@@ -67,7 +77,9 @@ custom:
   syncS3Buckets:
     - bucketRef: StaticSite
       localDir: dist
-  hostedZoneName: www.mumbaimob.com
+  hostedZoneName: mumbaimob.com
+  hostedZoneId: Z3AQBSTGFYJSTF # us-east-1 https://docs.aws.amazon.com/sdk-for-ruby/v1/api/AWS/Route53/HostedZone.html
+  aliasDNSName: s3-website-us-east-1.amazonaws.com # this is based on s3 bucket url
   remover:
     buckets:
       - ${self:custom.hostedZoneName}
