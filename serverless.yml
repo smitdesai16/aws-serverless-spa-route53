@@ -43,6 +43,7 @@ resources:
                     "/*"
                   ]
                 ]
+
     DnsRecord:
       Type: "AWS::Route53::RecordSet"
       Properties:
